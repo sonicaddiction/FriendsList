@@ -1,0 +1,15 @@
+.thumbnail {
+    font-size: 20px;
+    color: black;
+    padding: 0;
+}
+
+.thumbnail:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.thumbnail img {
+    display: inline;
+    margin-right: 5px;
+}
