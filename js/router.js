@@ -14,7 +14,10 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             router = new AppRouter(options);
 
         router.on('route:defaultAction', function () {
-            console.log("Default action!");
+            require(['views/friendsList/friendsListView'], function (FriendsListView) {
+                var friendsListView = new FriendsListView();
+                $(".pageContent").html(friendsListView.render().el);
+            });
         });
 
         Backbone.history.start();
