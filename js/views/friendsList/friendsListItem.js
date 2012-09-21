@@ -14,7 +14,8 @@ define(['jquery',
             },
 
             render: function () {
-                $(this.el).html(friendsListItemTemplate).addClass("span6");
+                var compiledTemplate = _.template(friendsListItemTemplate, this.options.model.toJSON());
+                $(this.el).html(compiledTemplate).addClass("span6");
                 return this;
             }
         });
