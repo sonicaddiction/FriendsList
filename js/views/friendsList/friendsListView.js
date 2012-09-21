@@ -14,19 +14,26 @@ define(['jquery',
 
             initialize: function () {
                 _.bindAll(this, 'render', 'appendListItem');
+
+                this.friendCollection = new FriendCollection();
             },
 
             render: function () {
+                var that = this;
                 $(this.el).html(friendsListTemplate);
 
-                this.appendListItem("");
+                this.friendCollection.deferred.done(function (collection) {
+                    collection.each(function (friendModel) {
+                        that.appendListItem(friendModel);
+                    })
+                });
 
                 return this;
             },
 
             appendListItem: function (friendModel) {
                 var listItem = new FriendsListItem({
-                    model: null
+                    model: friendModel
                 });
                 $(".friendsList", this.el).append(listItem.render().el);
             }
