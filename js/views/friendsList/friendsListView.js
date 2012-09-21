@@ -5,8 +5,9 @@ define(['jquery',
         'underscore',
         'backbone',
         'text!templates/friendsList/friendsListTemplate.html',
-        'views/friendsList/friendsListItem'],
-    function ($, _, Backbone, friendsListTemplate, FriendsListItem) {
+        'views/friendsList/friendsListItem',
+        'collections/friendCollection'],
+    function ($, _, Backbone, friendsListTemplate, FriendsListItem, FriendCollection) {
         "use strict";
         var AppView = Backbone.View.extend({
             tagName: 'div',
