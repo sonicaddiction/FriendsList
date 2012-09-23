@@ -18,6 +18,10 @@ define(['jquery',
                 this.friendCollection = new FriendCollection();
             },
 
+            events: {
+                'click #facebookLogin': 'facebookLogin'
+            },
+
             render: function () {
                 var that = this;
                 $(this.el).html(friendsListTemplate);
@@ -36,6 +40,10 @@ define(['jquery',
                     model: friendModel
                 });
                 $(".friendsList", this.el).append(listItem.render().el);
+            },
+
+            facebookLogin: function () {
+                window.open("https://www.facebook.com/dialog/oauth?client_id=501462183199289&redirect_uri=http://localhost/~kristofer/FriendsList&response_type=token");
             }
         });
         return AppView;

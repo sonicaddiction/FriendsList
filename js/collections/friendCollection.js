@@ -9,7 +9,7 @@ define(['jquery',
     var FriendCollection = Backbone.Collection.extend({
         model: FriendModel,
 
-        url: "https://graph.facebook.com/me/friends?" + "access_token=",
+        url: "https://graph.facebook.com/me/friends?" + "access_token=AAACEdEose0cBAOhv6COmQ93yTR8WY6xC6YgwDaDYRtjRnbjZAXeFZABxYT4A8UtA8gP3ZBXeg4YFADsU7mTWltcdn4NHQYqP6eyE9xuWgZDZD",
 
         parse: function (response) {
             return response.data;
