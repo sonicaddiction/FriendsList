@@ -1,5 +1,5 @@
 /*global define: false, require: false, window: false */
-/*jslint nomen: true */
+/*jslint nomen: true, vars: true */
 
 define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
     "use strict";
@@ -20,25 +20,12 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             if (hash.length > 0 && hash.indexOf("access_token=") === 1) {
                 require(['views/friendsList/friendsListView'], function (FriendsListView) {
                     var accessToken = hash.substr(1),
-                        friendsListView = new FriendsListView({
-                            accessToken: accessToken
-                        });
+                        friendsListView = new FriendsListView();
                     $(".pageContent").html(friendsListView.render().el);
                 });
             } else {
                 window.location.replace(facebookAuthenticationUrl);
             }
-        });
-
-        router.on('route:friendsList', function () {
-            require(['views/friendsList/friendsListView'], function (FriendsListView) {
-                var friendsListView = new FriendsListView();
-                $(".pageContent").html(friendsListView.render().el);
-            });
-        });
-
-        router.on('route:authentication', function () {
-            console.log(window);
         });
 
         Backbone.history.start();

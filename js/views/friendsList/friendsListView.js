@@ -14,12 +14,8 @@ define(['jquery',
 
             initialize: function () {
                 _.bindAll(this, 'render', 'appendListItem');
-
+                
                 this.friendCollection = new FriendCollection();
-            },
-
-            events: {
-                'click #facebookLogin': 'facebookLogin'
             },
 
             render: function () {
@@ -40,16 +36,8 @@ define(['jquery',
                     model: friendModel
                 });
                 $(".friendsList", this.el).append(listItem.render().el);
-            },
-
-            facebookLogin: function () {
-                var url = "https://www.facebook.com/dialog/oauth?client_id=501462183199289&redirect_uri=http://localhost/~kristofer/FriendsList&response_type=token",
-                    popup = window.open(url, 'Login to facebook', 'height=300,width=450');
-
-                if (window.focus) {
-                    popup.focus();
-                }
             }
+
         });
         return AppView;
     });
