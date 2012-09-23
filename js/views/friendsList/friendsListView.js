@@ -29,7 +29,7 @@ define(['jquery',
                 this.friendCollection.deferred.done(function (collection) {
                     collection.each(function (friendModel) {
                         that.appendListItem(friendModel);
-                    })
+                    });
                 });
 
                 return this;
@@ -43,7 +43,12 @@ define(['jquery',
             },
 
             facebookLogin: function () {
-                window.open("https://www.facebook.com/dialog/oauth?client_id=501462183199289&redirect_uri=http://localhost/~kristofer/FriendsList&response_type=token");
+                var url = "https://www.facebook.com/dialog/oauth?client_id=501462183199289&redirect_uri=http://localhost/~kristofer/FriendsList&response_type=token",
+                    popup = window.open(url, 'Login to facebook', 'height=300,width=450');
+
+                if (window.focus) {
+                    popup.focus();
+                }
             }
         });
         return AppView;
