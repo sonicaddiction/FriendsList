@@ -1,4 +1,4 @@
-/*global define: false */
+/*global define: false, window: false */
 /*jslint nomen: true */
 
 define(['jquery',
@@ -9,7 +9,14 @@ define(['jquery',
     var FriendCollection = Backbone.Collection.extend({
         model: FriendModel,
 
-        url: "https://graph.facebook.com/me/friends?" + "access_token=AAACEdEose0cBAOhv6COmQ93yTR8WY6xC6YgwDaDYRtjRnbjZAXeFZABxYT4A8UtA8gP3ZBXeg4YFADsU7mTWltcdn4NHQYqP6eyE9xuWgZDZD",
+        url: function () {
+            var hash = window.location.hash;
+            if (hash.length > 0 && hash.indexOf("access_token") === 1) {
+                return "https://graph.facebook.com/me/friends?" + window.location.hash.substr(1);
+            } else {
+                throw new Error("No access token found in uri hash.");
+            }
+        },
 
         parse: function (response) {
             return response.data;
@@ -22,7 +29,7 @@ define(['jquery',
 
             this.fetch({
                 success: this.fetchSuccessCallback,
-                error: this.fetchErrorCallback 
+                error: this.fetchErrorCallback
             });
         },
 
@@ -34,5 +41,6 @@ define(['jquery',
             throw new Error("Error while fetching friend list");
         }
     });
+
     return FriendCollection;
 });
