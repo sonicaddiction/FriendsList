@@ -4,12 +4,16 @@
     padding: 0;
 }
 
-.thumbnail:hover {
-    color: black;
-    text-decoration: none;
-}
-
 .thumbnail img {
     display: inline;
     margin-right: 5px;
+}
+
+.thumbnails > li {
+    float: none;
+    margin-bottom: 0px;
+}
+
+.thumbnails a:hover {
+    text-decoration: none;
 }

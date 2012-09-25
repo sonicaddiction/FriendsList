@@ -38,7 +38,7 @@ define(['jquery',
         },
 
         fetchErrorCallback: function (collection, response) {
-            throw new Error("Error while fetching friend list");
+            collection.deferred.reject(response);
         }
     });
 
