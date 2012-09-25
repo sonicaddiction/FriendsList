@@ -24,13 +24,15 @@ define(['jquery',
 
         deferred: Function.constructor.prototype,
 
-        initialize: function () {
+        initialize: function (modelArray) {
             this.deferred = new $.Deferred();
 
-            this.fetch({
-                success: this.fetchSuccessCallback,
-                error: this.fetchErrorCallback
-            });
+            if (typeof modelArray === "undefined") {
+                this.fetch({
+                    success: this.fetchSuccessCallback,
+                    error: this.fetchErrorCallback
+                });
+            }
         },
 
         fetchSuccessCallback: function (collection, response) {

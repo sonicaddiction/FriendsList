@@ -13,9 +13,10 @@ define(['jquery',
             tagName: 'div',
 
             initialize: function () {
-                _.bindAll(this, 'render', 'appendListItem', 'displayError');
+                _.bindAll(this, 'render', 'appendListItem', 'displayError', 'renderSearched');
 
                 this.friendCollection = new FriendCollection();
+
             },
 
             render: function () {
@@ -24,9 +25,7 @@ define(['jquery',
                 $(that.el).html(friendsListTemplate);
 
                 this.friendCollection.deferred.done(function (collection) {
-                    collection.each(function (friendModel) {
-                        that.appendListItem(friendModel);
-                    });
+                    that.renderSearched("ris", collection);
                 });
                 this.friendCollection.deferred.fail(function (response) {
                     var responseJSON = $.parseJSON(response.responseText);
@@ -34,6 +33,18 @@ define(['jquery',
                 });
 
                 return this;
+            },
+
+            renderSearched: function (searchString, collection) {
+                var that = this,
+                    searchArray = collection.filter(function (friend) {
+                        return friend.get("name").indexOf(searchString) !== -1;
+                    }),
+                    filteredCollection = new FriendCollection(searchArray);
+
+                filteredCollection.each(function (friendModel) {
+                    that.appendListItem(friendModel);
+                });
             },
 
             appendListItem: function (friendModel) {
