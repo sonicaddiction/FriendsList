@@ -13,14 +13,14 @@ define(['jquery',
             tagName: 'div',
 
             initialize: function () {
-                _.bindAll(this, 'render', 'appendListItem', 'displayError', 'renderFiltered', 'newSearch');
+                _.bindAll(this, 'render', 'appendListItem', 'displayError', 'renderFiltered', 'performSearch');
 
                 this.friendCollection = new FriendCollection();
 
             },
 
             events: {
-                'keyup #searchInput': 'newSearch'
+                'keyup #searchInput': 'performSearch'
             },
 
             render: function () {
@@ -28,11 +28,8 @@ define(['jquery',
 
                 $(that.el).html(friendsListTemplate);
 
-                this.friendCollection.deferred.done(function (collection) {
-                    that.renderFiltered("", collection);
-                    $("#searchInput").removeAttr("disabled");
-                });
-                
+                this.performSearch();
+
                 this.friendCollection.deferred.fail(function (response) {
                     var responseJSON = $.parseJSON(response.responseText);
                     that.displayError(responseJSON.error.message);
@@ -45,7 +42,6 @@ define(['jquery',
                 var that = this,
                     searchArray = collection.search(searchString);
 
-                $(".friendsList", this.el).empty();
                 _.each(searchArray, function (friendModel) {
                     that.appendListItem(friendModel);
                 });
@@ -66,10 +62,15 @@ define(['jquery',
                 $(this.el).html(errorMessage.join(""));
             },
 
-            newSearch: function (event) {
+            performSearch: function () {
                 var that = this;
+
                 this.friendCollection.deferred.done(function (collection) {
-                    var searchString = $(event.target).val();
+                    var searchString = $("#searchInput").val();
+
+                    $("#searchInput").removeAttr("disabled");
+                    $(".friendsList", that.el).empty();
+
                     that.renderFiltered(searchString, collection);
                 });
             }
