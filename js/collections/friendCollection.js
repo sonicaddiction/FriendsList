@@ -44,8 +44,15 @@ define(['jquery',
         },
 
         search: function (searchString) {
+            var processString = function (string) {
+                return $.trim(string).toLowerCase();
+            };
+
             return this.filter(function (friend) {
-                return friend.get("name").indexOf(searchString) !== -1;
+                var processedSearchString = processString(searchString),
+                    processedName = processString(friend.get("name"));
+
+                return processedName.indexOf(processedSearchString) !== -1;
             });
         }
     });
