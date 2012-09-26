@@ -43,6 +43,10 @@ define(['jquery',
             collection.deferred.reject(response);
         },
 
+        comparator: function (friend) {
+            return friend.get('name');
+        },
+
         search: function (searchString) {
             var processString = function (string) {
                 return $.trim(string).toLowerCase();
