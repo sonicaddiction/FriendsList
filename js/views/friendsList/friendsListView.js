@@ -13,10 +13,14 @@ define(['jquery',
             tagName: 'div',
 
             initialize: function () {
-                _.bindAll(this, 'render', 'appendListItem', 'displayError', 'renderSearched');
+                _.bindAll(this, 'render', 'appendListItem', 'displayError', 'renderFiltered', 'newSearch');
 
                 this.friendCollection = new FriendCollection();
 
+            },
+
+            events: {
+                'keyup #searchInput': 'newSearch'
             },
 
             render: function () {
@@ -25,8 +29,10 @@ define(['jquery',
                 $(that.el).html(friendsListTemplate);
 
                 this.friendCollection.deferred.done(function (collection) {
-                    that.renderSearched("ris", collection);
+                    that.renderFiltered("", collection);
+                    $("#searchInput").removeAttr("disabled");
                 });
+                
                 this.friendCollection.deferred.fail(function (response) {
                     var responseJSON = $.parseJSON(response.responseText);
                     that.displayError(responseJSON.error.message);
@@ -35,14 +41,12 @@ define(['jquery',
                 return this;
             },
 
-            renderSearched: function (searchString, collection) {
+            renderFiltered: function (searchString, collection) {
                 var that = this,
-                    searchArray = collection.filter(function (friend) {
-                        return friend.get("name").indexOf(searchString) !== -1;
-                    }),
-                    filteredCollection = new FriendCollection(searchArray);
+                    searchArray = collection.search(searchString);
 
-                filteredCollection.each(function (friendModel) {
+                $(".friendsList", this.el).empty();
+                _.each(searchArray, function (friendModel) {
                     that.appendListItem(friendModel);
                 });
             },
@@ -60,6 +64,14 @@ define(['jquery',
                 errorMessage.push(message);
                 errorMessage.push('</div>');
                 $(this.el).html(errorMessage.join(""));
+            },
+
+            newSearch: function (event) {
+                var that = this;
+                this.friendCollection.deferred.done(function (collection) {
+                    var searchString = $(event.target).val();
+                    that.renderFiltered(searchString, collection);
+                });
             }
 
         });

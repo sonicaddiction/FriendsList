@@ -41,6 +41,12 @@ define(['jquery',
 
         fetchErrorCallback: function (collection, response) {
             collection.deferred.reject(response);
+        },
+
+        search: function (searchString) {
+            return this.filter(function (friend) {
+                return friend.get("name").indexOf(searchString) !== -1;
+            });
         }
     });
 
