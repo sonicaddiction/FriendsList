@@ -6,8 +6,9 @@ define(['jquery',
         'backbone',
         'text!templates/friendsList/friendsListTemplate.html',
         'views/friendsList/friendsListItem',
-        'collections/friendCollection'],
-    function ($, _, Backbone, friendsListTemplate, FriendsListItem, FriendCollection) {
+        'collections/friendCollection',
+        'helpers/paginator'],
+    function ($, _, Backbone, friendsListTemplate, FriendsListItem, FriendCollection, Paginator) {
         "use strict";
         var AppView = Backbone.View.extend({
             tagName: 'div',
@@ -40,18 +41,10 @@ define(['jquery',
 
             renderFiltered: function (searchString, collection) {
                 var that = this,
-                    searchArray = collection.search(searchString);
+                    searchArray = collection.search(searchString),
+                    listElement = $(".friendsList", this.el);
 
-                _.each(searchArray, function (friendModel) {
-                    that.appendListItem(friendModel);
-                });
-            },
-
-            appendListItem: function (friendModel) {
-                var listItem = new FriendsListItem({
-                    model: friendModel
-                });
-                $(".friendsList", this.el).append(listItem.render().el);
+                Paginator.render(searchArray, listElement);
             },
 
             displayError: function (message) {
