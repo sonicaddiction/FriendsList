@@ -14,7 +14,7 @@ define(['jquery',
             tagName: 'div',
 
             initialize: function () {
-                _.bindAll(this, 'render', 'appendListItem', 'displayError', 'renderFiltered', 'performSearch');
+                _.bindAll(this, 'render', 'displayError', 'renderFiltered', 'performSearch');
 
                 this.friendCollection = new FriendCollection();
 
