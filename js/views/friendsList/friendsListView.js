@@ -44,7 +44,12 @@ define(['jquery',
                     searchArray = collection.search(searchString),
                     listElement = $(".friendsList", this.el);
 
-                Paginator.render(searchArray, listElement);
+                Paginator.init({
+                    array: searchArray,
+                    el: listElement
+                });
+
+                Paginator.renderPage(0);
             },
 
             displayError: function (message) {

@@ -8,12 +8,26 @@ define(['jquery',
     "use strict";
 
     var Paginator = {
-        render: function (collection, element) {
-            var that = this;
+        options: {
+            itemsPerPage: 10,
+            array: null,
+            el: null
+        },
 
-            _.each(collection, function (friendModel) {
-                that.appendListItem(friendModel, element);
-            });
+        init: function (options) {
+            _.extend(this.options, options);
+            this.currentItems = options.array.length;
+            this.pages = Math.ceil(this.currentItems /  this.options.itemsPerPage);
+        },
+
+        renderPage: function (page) {
+            var i,
+                start = page * this.options.itemsPerPage,
+                end = Math.min((page + 1) * this.options.itemsPerPage, this.currentItems);
+
+            for (i = start; i < end; ++i) {
+                this.appendListItem(this.options.array[i], this.options.el);
+            }
         },
 
         appendListItem: function (model, element) {
