@@ -14,14 +14,14 @@ define(['jquery',
             tagName: 'div',
 
             initialize: function () {
-                _.bindAll(this, 'render', 'displayError', 'renderFiltered', 'performSearch');
+                _.bindAll(this, 'render', 'displayError', 'renderFiltered', 'performSearchAndRender');
 
                 this.friendCollection = new FriendCollection();
 
             },
 
             events: {
-                'keyup #searchInput': 'performSearch'
+                'keyup #searchInput': 'performSearchAndRender'
             },
 
             render: function () {
@@ -29,7 +29,7 @@ define(['jquery',
 
                 $(that.el).html(friendsListTemplate);
 
-                this.performSearch();
+                this.performSearchAndRender();
 
                 this.friendCollection.deferred.fail(function (response) {
                     var responseJSON = $.parseJSON(response.responseText);
@@ -49,6 +49,7 @@ define(['jquery',
                     el: listElement
                 });
 
+                this.redrawPaginationList(Paginator.getNumberOfPages());
                 Paginator.renderPage(0);
             },
 
@@ -60,7 +61,7 @@ define(['jquery',
                 $(this.el).html(errorMessage.join(""));
             },
 
-            performSearch: function () {
+            performSearchAndRender: function () {
                 var that = this;
 
                 this.friendCollection.deferred.done(function (collection) {
@@ -71,6 +72,10 @@ define(['jquery',
 
                     that.renderFiltered(searchString, collection);
                 });
+            },
+
+            redrawPaginationList: function (pages) {
+                console.log(pages);
             }
 
         });

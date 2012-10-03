@@ -30,6 +30,10 @@ define(['jquery',
             }
         },
 
+        getNumberOfPages: function () {
+            return this.pages;
+        },
+
         appendListItem: function (model, element) {
             var listItem = new FriendsListItem({
                 model: model
