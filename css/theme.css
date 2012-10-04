@@ -20,3 +20,14 @@
 .thumbnails a:hover {
     text-decoration: none;
 }
+
+.pagination button {
+    float: left;
+}
+
+.pagination div {
+    float: left;
+    font-weight: bold;
+    line-height: 30px;
+    margin: 0px 15px;
+}

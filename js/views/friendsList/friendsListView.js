@@ -16,14 +16,15 @@ define(['jquery',
             currentPage: 0,
 
             initialize: function () {
-                _.bindAll(this, 'render', 'displayError', 'renderFiltered', 'performSearchAndRender', 'redrawPaginationList');
+                _.bindAll(this, 'render', 'displayError', 'renderFiltered', 'performSearchAndRender');
 
                 this.friendCollection = new FriendCollection();
-
             },
 
             events: {
-                'keyup #searchInput': 'performSearchAndRender'
+                'keyup #searchInput': 'performSearchAndRender',
+                'click #nextPage': 'renderNextPage',
+                'click #prevPage': 'renderPrevPage'
             },
 
             render: function () {
@@ -48,10 +49,11 @@ define(['jquery',
 
                 Paginator.init({
                     array: searchArray,
-                    el: listElement
+                    el: listElement,
+                    currentPage: 0
                 });
 
-                this.redrawPaginationList();
+                
                 Paginator.renderPage(0);
             },
 
@@ -76,18 +78,16 @@ define(['jquery',
                 });
             },
 
-            redrawPaginationList: function () {
-                var that = this;
-                $("#nextPage", this.el).on('click', function () {
-                    that.currentPage = that.currentPage + 1;
-                    Paginator.renderPage(that.currentPage);
-                });
+            renderNextPage: function (event) {
+                event.preventDefault();
+                Paginator.renderNextPage();
+            },
 
-                $("#prevPage", this.el).on('click', function () {
-                    that.currentPage = that.currentPage - 1;
-                    Paginator.renderPage(that.currentPage);
-                });
+            renderPrevPage: function (event) {
+                event.preventDefault();
+                Paginator.renderPrevPage();
             }
+
 
         });
         return AppView;

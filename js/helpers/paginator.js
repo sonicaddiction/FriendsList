@@ -9,9 +9,10 @@ define(['jquery',
 
     var Paginator = {
         options: {
-            itemsPerPage: 10,
+            itemsPerPage: 8,
             array: null,
-            el: null
+            el: null,
+            currentPage: 0
         },
 
         init: function (options) {
@@ -28,21 +29,38 @@ define(['jquery',
             this.options.el.empty();
 
             for (i = start; i < end; ++i) {
-                this.appendListItem(this.options.array[i], this.options.el);
+                this._appendListItem(this.options.array[i], this.options.el);
             }
+
+            this._redrawPageDisplay();
         },
 
-        getNumberOfPages: function () {
-            return this.pages;
+        _redrawPageDisplay: function () {
+            var label = (this.options.currentPage + 1) + " / " + this.pages;
+            $(".currentPage").html(label);
+
         },
 
-        appendListItem: function (model, element) {
+        _appendListItem: function (model, element) {
             var listItem = new FriendsListItem({
                 model: model
             });
             element.append(listItem.render().el);
-        }
+        },
 
+        renderNextPage: function () {
+            if (this.options.currentPage < this.pages - 1) {
+                this.options.currentPage++;
+                this.renderPage(this.options.currentPage);
+            }
+        },
+
+        renderPrevPage: function () {
+            if (this.options.currentPage > 0) {
+                this.options.currentPage--;
+                this.renderPage(this.options.currentPage);
+            }
+        }
     };
 
     return Paginator;
