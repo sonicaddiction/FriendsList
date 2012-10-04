@@ -13,8 +13,10 @@ define(['jquery',
         var AppView = Backbone.View.extend({
             tagName: 'div',
 
+            currentPage: 0,
+
             initialize: function () {
-                _.bindAll(this, 'render', 'displayError', 'renderFiltered', 'performSearchAndRender');
+                _.bindAll(this, 'render', 'displayError', 'renderFiltered', 'performSearchAndRender', 'redrawPaginationList');
 
                 this.friendCollection = new FriendCollection();
 
@@ -49,7 +51,7 @@ define(['jquery',
                     el: listElement
                 });
 
-                this.redrawPaginationList(Paginator.getNumberOfPages());
+                this.redrawPaginationList();
                 Paginator.renderPage(0);
             },
 
@@ -74,8 +76,17 @@ define(['jquery',
                 });
             },
 
-            redrawPaginationList: function (pages) {
-                console.log(pages);
+            redrawPaginationList: function () {
+                var that = this;
+                $("#nextPage", this.el).on('click', function () {
+                    that.currentPage = that.currentPage + 1;
+                    Paginator.renderPage(that.currentPage);
+                });
+
+                $("#prevPage", this.el).on('click', function () {
+                    that.currentPage = that.currentPage - 1;
+                    Paginator.renderPage(that.currentPage);
+                });
             }
 
         });

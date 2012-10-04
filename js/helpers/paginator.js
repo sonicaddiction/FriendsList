@@ -25,6 +25,8 @@ define(['jquery',
                 start = page * this.options.itemsPerPage,
                 end = Math.min((page + 1) * this.options.itemsPerPage, this.currentItems);
 
+            this.options.el.empty();
+
             for (i = start; i < end; ++i) {
                 this.appendListItem(this.options.array[i], this.options.el);
             }
